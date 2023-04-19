@@ -8,9 +8,20 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.OneToOne;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
+
 import org.springframework.stereotype.Component;
 
+import com.webtools.finalProject.Pojo.Address;
 
+
+@Component
 @Entity
 @Table(name = "users")
 public class User {
@@ -21,6 +32,12 @@ public class User {
 	private String name;
 	private String email;
 	private String password;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private Set<TravelPackages> travelPackages = new HashSet<>();
+	
+//	@OneToOne(mappedBy="user", cascade = CascadeType.ALL)
+//    private Address address;
 	
 	public User() {
 		

@@ -8,9 +8,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet">
-    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- </script>
     <link href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-    </script>
+    
+    </script> -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    
     <style>
         .Card-Parent{
             display: flex;
@@ -33,12 +37,33 @@
             /* flex-basis : 50% */
             margin: 2%;
             box-shadow: 0 0 25px #0000004d;
-            border-radius: 15px;
+            /* border-radius: 15px; */
             list-style: none;
         }
         .Card:hover {
-            transform: scale(1.05);
+           /* transform: scale(1.05); */
         }
+        .in{
+            
+                border-top-style: hidden;
+                border-right-style: hidden;
+                border-left-style: hidden;
+                border-bottom-style: hidden;
+                background-color: #ffffff;
+                color: #ffffff;
+              
+        }
+        .in:focus {
+            outline: none;
+          }
+
+         
+          .cart {
+            padding: 5px;
+            display: inline-block;
+            padding: 1rem 1rem;
+            width: 5%;
+          }
     </style>
 </head>
 
@@ -152,18 +177,35 @@
                                                
                                                 <input  type="hidden" value="${attribute.packageId}" name="pId" />
                                                 <!-- <input  type="submit" value="View Cart" name="userSelectedOption" /> -->
-                                                <input type="submit" id="addToCart_${attribute.packageId}" value="" name="userSelectedOption" />
-                                                <input type="submit" id="addToWishlist_${attribute.packageId}" value="" name="userSelectedOption" />
+                                                <div class="buttons">
+                                                    <div class="cart" >
+                                                        <input class="in" type="submit" id="addToCart_${attribute.packageId}" value="" name="userSelectedOption" />
+                                                        <span class="icon"><i class="fa fa-shopping-cart"></i></span>
+                                                    </div>
+                                                    <div class="cart" >
+                                                        <input class="in" type="submit" id="addToWishlist_${attribute.packageId}" value="" name="userSelectedOption" />
+                                                        <span class="icon"><i class="fa fa-heart"></i></span>
+                                                    </div>
+                                                    <div class="cart">
+                                                        <input class="in" type="submit" id="view_${attribute.packageId}" value="" name="userSelectedOption" />
+                                                        <span class="icon"><i class="fa fa-eye"></i></span>
+                                                      </div>
+                                                </div>
                                                 <script>
                                                     function concatenateStrings(text1, text2, inputId) {
                                                         let result = text1 + ' ' + text2; // Concatenate with a space in between
                                                         document.getElementById(inputId).setAttribute("value", result);
                                                     }
+                                                   
+                                                    //concatenateStrings(`<i class='fa fa-shopping-cart'></i> Add To Cart", "${attribute.packageId}", "addToCart_${attribute.packageId}");
+    
                                                     concatenateStrings("Add To Cart", "${attribute.packageId}", "addToCart_${attribute.packageId}");
                                                     concatenateStrings("Add To Wishlist", "${attribute.packageId}", "addToWishlist_${attribute.packageId}");
+                                                    concatenateStrings("View", "${attribute.packageId}", "view_${attribute.packageId}");
 
                                                 </script>
                                             </div>
+                                            
                                         </c:forEach>
                                       <!-- </ul> -->
                             </div>  
@@ -173,7 +215,7 @@
             </div>
             <div class="tab-pane" id="cart">
                 <p>Cart Tab</p>
-                <form method="post" name="viewedAssessmentsForm" action="viewAssessment">
+                <form method="post" name="products" action="products.htm">
                     <div class="container py-5">
                         <div class="Card-Parent">
                             <c:forEach var="attribute" items="${sessionScope.cartItemsList}">
@@ -183,10 +225,40 @@
                                     <li>${attribute.packageName}</li>
                                     <li>${attribute.packagePrice}</li>
                                     <li>${attribute.packageDescription}</li>
+                                    <label for="qty">Quantity</label>
+                                    <select name="qty" id="qty">
+                                        <option name="qtySelected" value="1">1</option>
+                                        <option name="qtySelected" value="2">2</option>
+                                        <option name="qtySelected" value="3">3</option>
+                                        <option name="qtySelected" value="4">4</option>
+                                    </select>
                                 </div>
+                                <script>
+                                    const qty = document.querySelector('#qty');
+                                    let selectedValue = qty.value;
+                                    
+                                    qty.addEventListener('change', () => {
+                                      selectedValue = qty.value;
+                                      console.log('Selected value:', selectedValue);
+                                    });
+                                  </script>
                             </c:forEach>
                         </div>
                         Cost : <c:out value="${sessionScope.totalCost}"/>
+                        Payment : 
+                        <input type="submit" id="updateQuantity" value="Quantity" name="userSelectedOption" />
+                        <input type="submit" id="processOrder" value="Pay" name="userSelectedOption" />
+                        <input  type="hidden" value="${attribute.packageId}" name="pId" />
+                        <script>
+                            function concatenateStrings(text1, text2, inputId) {
+                                let result = text1 + ' ' + text2; // Concatenate with a space in between
+                                document.getElementById(inputId).setAttribute("value", result);
+                            }
+                           
+                            //concatenateStrings(`<i class='fa fa-shopping-cart'></i> Add To Cart", "${attribute.packageId}", "addToCart_${attribute.packageId}");
+                            concatenateStrings("Update Quantity", "${attribute.packageId}", "updateQuantity_${attribute.packageId}");
+
+                        </script>
                     </div>
                 </form>
             </div>
@@ -202,6 +274,17 @@
                                     <li>${attribute.packageName}</li>
                                     <li>${attribute.packagePrice}</li>
                                     <li>${attribute.packageDescription}</li>
+                                    <input type="submit" id="delete_${attribute.packageId}" value="" name="userSelectedOption" />
+                                               
+                                    <script>
+                                        function concatenateStrings(text1, text2, inputId) {
+                                            let result = text1 + ' ' + text2; // Concatenate with a space in between
+                                            document.getElementById(inputId).setAttribute("value", result);
+                                        }
+                                        concatenateStrings("Delete", "${attribute.packageId}", "delete_${attribute.packageId}");
+                                    </script>
+                                    <input class="in" type="submit" id="addToCart_${attribute.packageId}" value="" name="userSelectedOption" />
+
                                 </div>
                             </c:forEach>
                         </div>

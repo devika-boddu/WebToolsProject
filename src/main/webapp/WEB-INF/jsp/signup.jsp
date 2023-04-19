@@ -22,6 +22,18 @@
 		    <td>Email Id:</td>
 		    <td><form:input path="email" size="30" /> <font color="red"><form:errors path="email"/></font></td>
 		</tr>
+        <tr>
+		    <td>Street Name:</td>
+		    <td><form:input path="streetName" size="30" /> <font color="red"><form:errors path="email"/></font></td>
+            <td>Street Num:</td>
+            <td><form:input path="streetNum" size="30" /> <font color="red"><form:errors path="email"/></font></td>
+            <td>City:</td>
+            <td><form:input path="city" size="30" /> <font color="red"><form:errors path="email"/></font></td>
+            <td>State:</td>
+            <td><form:input path="state" size="30" /> <font color="red"><form:errors path="email"/></font></td>
+            <td>ZipCode:</td>
+            <td><form:input path="zipcode" size="30" /> <font color="red"><form:errors path="email"/></font></td>
+		</tr>
     	<tr>
 		    <td colspan="2"><input type="submit" value="Signup" /></td>
 		</tr>

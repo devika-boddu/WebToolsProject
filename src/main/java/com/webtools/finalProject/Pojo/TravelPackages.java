@@ -1,5 +1,11 @@
 package com.webtools.finalProject.Pojo;
 
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+
+import com.webtools.finalProject.Pojo.User;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,6 +24,9 @@ public class TravelPackages {
 	private Integer packagePrice;
 	private String image;
 	
+	@ManyToOne
+	@JoinColumn(name = "id")
+	private User user;
 	
 	
 	public TravelPackages() {

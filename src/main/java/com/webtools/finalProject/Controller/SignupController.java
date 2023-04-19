@@ -15,8 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.webtools.finalProject.Exception.UserException;
 import com.webtools.finalProject.Pojo.User;
+import com.webtools.finalProject.Pojo.Address;
 import com.webtools.finalProject.Validator.SignupValidator;
 import com.webtools.finalProject.Dao.UserDao;
+import com.webtools.finalProject.Dao.AddressDao;
 
 
 @Controller
@@ -34,7 +36,7 @@ public class SignupController {
 	}
 	
 	@PostMapping("/signUpLogin.htm")
-	public String handleUserSignUp(UserDao userDao,HttpServletRequest request, HttpServletResponse response, HttpSession session,
+	public String handleUserSignUp(UserDao userDao,  HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@ModelAttribute("user") User user, BindingResult result) throws Exception
 	{
 		signupValidator.validate(user, result);
@@ -45,6 +47,12 @@ public class SignupController {
 			String name = request.getParameter("name");
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
+			String streetName = request.getParameter("streetName");
+			int streetNum = Integer.parseInt(request.getParameter("streetNum"));
+			String city = request.getParameter("city");
+			String state = request.getParameter("state");
+			String zipcode = request.getParameter("zipcode");
+			
 			System.out.println(name);
 			System.out.println(email);
 			System.out.println(password);
@@ -52,9 +60,20 @@ public class SignupController {
 			user.setEmail(email);
 			user.setName(name);
 			user.setPassword(password);
+			
+			Address address = new Address();
+			address.setStreetName(streetName);
+			address.setStreetNum(streetNum);
+			address.setCity(city);
+			address.setState(state);
+			address.setZip(zipcode);
+			AddressDao addressDao = new AddressDao();
+			
 			try {
 				userDao.save(user);
-				 session.setAttribute("user", user);
+				//addressDao.save(address);
+				session.setAttribute("user", user);
+				session.setAttribute("address", address);
 				
 			} catch (UserException e) {
 				// TODO Auto-generated catch block
