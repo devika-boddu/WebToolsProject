@@ -155,7 +155,19 @@
                 <form method="post" name="products" action="products.htm">
                     <div class="container py-5">
                         <div class="row">
-
+                            <div>
+                                <form method = "post" action = "products.htm">
+                                    <label>Search by Package Name: </label>
+                                    <input type = "text" name = "textEntered"/><br/>
+                                    <input type = "submit" value = "Search" name = "userSelectedOption"/>
+                                </form>
+                            </div>
+                            <div>
+                                <form method = "post" action = "products.htm">
+                                    <label>Sort by Package Name: </label>
+                                    <input type = "submit" value = "Sort" name = "userSelectedOption"/>
+                                </form>
+                            </div>
                                 <!-- <thead>
                                     <tr>
                                         <th>User Name : </th>
@@ -311,15 +323,25 @@
                 </form>
             </div>
             <div class="tab-pane" id="profile">
-                <p>Viewed Assessments Tab</p>
+
+                    <p>Viewed Assessments Tab</p>
                 
-                    <div class="container py-5">
-                        <h1>User Details</h1>
+                    <form method = "post" name = "report" action = "email.htm">
+                
+                            <div class="container py-5">
+                
+                                <h1>User Details</h1>
+                
                                     User ID: ${sessionScope.currentUser.id}<br/>
                                     User Name: ${sessionScope.currentUser.name} <br/>
                                     Email: ${sessionScope.currentUser.email}<br/>
-                    </div>
-            </div>
+                
+                                     <input type = "submit" value ="Email" name = "email"/>
+                                    <input type = "submit" value ="Report" name = "report"/>
+                         </div>
+                    </form>
+                </div>
+
             <div class="tab-pane" id="contact">
                 <p>Viewed Assessments Tab</p>
                 <form method="post" name="viewedAssessmentsForm" action="viewAssessment">

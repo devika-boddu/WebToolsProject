@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-@ComponentScan({"com.webtools.finalProject.Controller","com.webtools.finalProject.Dao","com.webtools.finalProject.Pojo", "com.webtools.finalProject.Validator"})
+@ComponentScan({"com.webtools.finalProject.Controller","com.webtools.finalProject.Dao","com.webtools.finalProject.Pojo", "com.webtools.finalProject.Validator", "com.webtools.finalProject.Util"})
 public class WebtoolsFinalProjectApplication extends SpringBootServletInitializer implements WebMvcConfigurer {
 
 	public static void main(String[] args) {

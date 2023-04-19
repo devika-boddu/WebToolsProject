@@ -47,7 +47,82 @@ public class TravelPackagesDao extends DAO {
 	        return travelPackage;
 	    }
 	
+	public void save(TravelPackages travelPackages) throws Exception {
+        try {
+            //save Travel Package object in the database
+        	begin();
+        	getSession().persist(travelPackages);
+        	commit();
+        } catch (HibernateException e) {
+            rollback();       
+            e.printStackTrace();
+            
+            throw new UserException("Exception while creating TravelPackages: " + e.getMessage());
+    }
+ }
 	
+	public void delete(TravelPackages travelPackages) throws UserException {
+		 try {
+	         //delete Travel Package object in the database
+	     	begin();
+	     	getSession().remove(travelPackages);
+	     	commit();
+	     	close();
+	     } catch (HibernateException e) {
+	         rollback();
+	         throw new UserException("Exception while deleting Package: " + e.getMessage());
+	     }
+	}
+	
+	public void update(Integer packageID, String packageName, String packageDescription, Integer packagePrice, String imageURL ) throws UserException {
+		TravelPackages travelPackages = getSelectedProduct(packageID);
+		
+		if(travelPackages!=null) {
+			try {
+		         //Updates Travel Package object in the database
+		     	begin();
+		     	travelPackages.setPackageName(packageName);
+		     	travelPackages.setPackageDescription(packageDescription);
+		     	travelPackages.setPackagePrice(packagePrice);
+		     	travelPackages.setImage(imageURL);
+		     	getSession().merge(travelPackages);
+		     	commit();
+		     	close();
+		     } catch (HibernateException e) {
+		         rollback();
+		         throw new UserException("Exception while deleting Package: " + e.getMessage());
+		     }
+		}
+		 
+	}
+	
+	public List<TravelPackages>	 getSearchedProducts(String enteredText) throws UserException{
+		
+		List<TravelPackages> myEntities = null;
+		try {
+			myEntities = getSession().createQuery("FROM TravelPackages where packageName LIKE '%"+enteredText+"%'", TravelPackages.class).getResultList();
+			System.out.println(myEntities);
+		} catch (Exception e) {
+			System.out.println(e);
+			e.printStackTrace();
+		}
+		
+        return myEntities;
+    }
+	
+	public List<TravelPackages>	 getSortedProducts() throws UserException{
+			
+			List<TravelPackages> myEntities = null;
+			try {
+				myEntities = getSession().createQuery("FROM TravelPackages ORDER BY packageName ASC", TravelPackages.class).getResultList();
+				System.out.println(myEntities);
+			} catch (Exception e) {
+				System.out.println(e);
+				e.printStackTrace();
+			}
+			
+	        return myEntities;
+	    }
 
 
 }
