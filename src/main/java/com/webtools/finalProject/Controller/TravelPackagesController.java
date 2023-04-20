@@ -28,7 +28,10 @@ public class TravelPackagesController {
 	int count =0 ;
 	List<TravelPackages> cartItemsList = new ArrayList<TravelPackages>();
 	List<TravelPackages> wishlistItemsList = new ArrayList<TravelPackages>();
+	List<TravelPackages> searchedItems = new ArrayList<TravelPackages>();
+	List<TravelPackages> sortedItems = new ArrayList<TravelPackages>();
 	int totalCost = 0;
+	int optionSelected = 0;
 	Order order = new Order();
 	
 	
@@ -36,7 +39,7 @@ public class TravelPackagesController {
 	public ModelAndView handleLogin(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@ModelAttribute("travelPackage") TravelPackages travelPackage, BindingResult result) throws UserException, RazorpayException {
 		
-
+		TravelPackagesDao tdao = new TravelPackagesDao();
 		String userSelectedOption = request.getParameter("userSelectedOption");
 		System.out.println(userSelectedOption);
 		
@@ -44,7 +47,7 @@ public class TravelPackagesController {
 			String pid = userSelectedOption.substring(12);
 			Integer tid= Integer.parseInt(pid);
 //			
-			TravelPackagesDao tdao = new TravelPackagesDao();
+			
 			TravelPackages addTocart=tdao.getSelectedProduct(tid);
 			System.out.println(addTocart.getPackageName());
 			System.out.println(addTocart.getPackageDescription());
@@ -55,7 +58,7 @@ public class TravelPackagesController {
 		else if(userSelectedOption.contains("Add To Wishlist")){
 			String pid = userSelectedOption.substring(16);
 			Integer tid= Integer.parseInt(pid);
-			TravelPackagesDao tdao = new TravelPackagesDao();
+			
 			TravelPackages addToWishlist=tdao.getSelectedProduct(tid);
 			System.out.println(addToWishlist.getPackageName());
 			System.out.println(addToWishlist.getPackageDescription());
@@ -80,7 +83,7 @@ public class TravelPackagesController {
 			String pid = userSelectedOption.substring(7);
 			
 			Integer tid= Integer.parseInt(pid);
-			TravelPackagesDao tdao = new TravelPackagesDao();
+			
 			TravelPackages removeItem = tdao.getSelectedProduct(tid);
 			for(TravelPackages i : wishlistItemsList) {
 				if(removeItem.getPackageId() == i.getPackageId()) {
@@ -108,7 +111,7 @@ public class TravelPackagesController {
 			String pid = userSelectedOption.substring(5);
 			Integer tid= Integer.parseInt(pid);
 			System.out.println(tid);
-			TravelPackagesDao tdao = new TravelPackagesDao();
+			
 			TravelPackages viewItem = tdao.getSelectedProduct(tid);
 			session.setAttribute("viewItem", viewItem);
 			return new ModelAndView("view");
@@ -117,6 +120,14 @@ public class TravelPackagesController {
 			String quantity = request.getParameter("qtySelected");
 			System.out.println(quantity);
 
+		}else if (userSelectedOption.contains("Search")) {
+			String enteredText = request.getParameter("textEntered");
+			System.out.println(enteredText);
+			searchedItems=tdao.getSearchedProducts(enteredText);
+			optionSelected=1;
+		}else if (userSelectedOption.contains("Sort")) {
+			sortedItems=tdao.getSortedProducts();
+			optionSelected=2;
 		}
 
 //		String selected = request.getParameter("myInput");
@@ -131,6 +142,9 @@ public class TravelPackagesController {
 //		System.out.println(addTocart.getPackagePrice());
 //		cartItemsList.add(addTocart);
 		
+		session.setAttribute("sortedItems", sortedItems);
+		session.setAttribute("optionSelected", optionSelected);
+		session.setAttribute("searchedItems", searchedItems);
 		session.setAttribute("cartItemsList", cartItemsList);
 		session.setAttribute("wishlistItemsList", wishlistItemsList);
 //		session.setAttribute("totalCost", totalCost);
