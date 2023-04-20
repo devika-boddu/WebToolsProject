@@ -168,6 +168,14 @@
                                     <input type = "submit" value = "Sort" name = "userSelectedOption"/>
                                 </form>
                             </div>
+                            <div>
+                                <form method = "post" action = "products.htm">
+                                    <label>Page Numbers</label>
+                                    <input type = "submit" value = "1" name = "userSelectedOption"/>
+                                    <input type = "submit" value = "2" name = "userSelectedOption"/>
+                                    <input type = "submit" value = "3" name = "userSelectedOption"/>
+                                </form>
+                            </div>
                                 <!-- <thead>
                                     <tr>
                                         <th>User Name : </th>
@@ -231,13 +239,14 @@
                     <div class="container py-5">
                         <div class="Card-Parent">
                             <c:forEach var="attribute" items="${sessionScope.cartItemsList}">
-                                <div class="Card">
+
+                                <div class="Card" onload="myFunction()">
                                     <img src="${attribute.image}" alt="x" width="300" height="250">
                                     <li>${attribute.packageId}</li>
                                     <li>${attribute.packageName}</li>
                                     <li>${attribute.packagePrice}</li>
                                     <li>${attribute.packageDescription}</li>
-                                    <label for="qty">Quantity</label>
+                                    <label for="qty">Quantity</label><span id="myText"></span>
                                     <select name="qty" id="qty">
                                         <option name="qtySelected" value="1">1</option>
                                         <option name="qtySelected" value="2">2</option>
@@ -246,31 +255,23 @@
                                     </select>
                                 </div>
                                 <script>
+                                    function myFunction(){
                                     const qty = document.querySelector('#qty');
                                     let selectedValue = qty.value;
                                     
                                     qty.addEventListener('change', () => {
                                       selectedValue = qty.value;
+                                      document.getElementById("myText").innerHTML = selectedValue;
                                       console.log('Selected value:', selectedValue);
-                                    });
+                                    });}
                                   </script>
                             </c:forEach>
                         </div>
-                        Cost : <c:out value="${sessionScope.totalCost}"/>
+                        Cost : <c:out value="${sessionScope.totalCost}"/> <br/>
                         Payment : 
                         <input type="submit" id="updateQuantity" value="Quantity" name="userSelectedOption" />
                         <input type="submit" id="processOrder" value="Pay" name="userSelectedOption" />
-                        <input  type="hidden" value="${attribute.packageId}" name="pId" />
-                        <script>
-                            function concatenateStrings(text1, text2, inputId) {
-                                let result = text1 + ' ' + text2; // Concatenate with a space in between
-                                document.getElementById(inputId).setAttribute("value", result);
-                            }
-                           
-                            //concatenateStrings(`<i class='fa fa-shopping-cart'></i> Add To Cart", "${attribute.packageId}", "addToCart_${attribute.packageId}");
-                            concatenateStrings("Update Quantity", "${attribute.packageId}", "updateQuantity_${attribute.packageId}");
 
-                        </script>
                     </div>
                 </form>
             </div>

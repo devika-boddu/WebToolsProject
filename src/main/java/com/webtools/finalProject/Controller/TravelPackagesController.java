@@ -45,8 +45,7 @@ public class TravelPackagesController {
 		
 		if(userSelectedOption.contains("Add To Cart")) {
 			String pid = userSelectedOption.substring(12);
-			Integer tid= Integer.parseInt(pid);
-//			
+			Integer tid= Integer.parseInt(pid);		
 			
 			TravelPackages addTocart=tdao.getSelectedProduct(tid);
 			System.out.println(addTocart.getPackageName());
@@ -115,12 +114,7 @@ public class TravelPackagesController {
 			TravelPackages viewItem = tdao.getSelectedProduct(tid);
 			session.setAttribute("viewItem", viewItem);
 			return new ModelAndView("view");
-		}  else if(userSelectedOption.contains("Quantity")){
-			
-			String quantity = request.getParameter("qtySelected");
-			System.out.println(quantity);
-
-		}else if (userSelectedOption.contains("Search")) {
+		}  else if (userSelectedOption.contains("Search")) {
 			String enteredText = request.getParameter("textEntered");
 			System.out.println(enteredText);
 			searchedItems=tdao.getSearchedProducts(enteredText);
@@ -128,6 +122,21 @@ public class TravelPackagesController {
 		}else if (userSelectedOption.contains("Sort")) {
 			sortedItems=tdao.getSortedProducts();
 			optionSelected=2;
+		}else if(userSelectedOption.contains("Quantity")){
+				totalCost = 0;
+				String[] selectedValues = request.getParameterValues("qty");
+				System.out.println(selectedValues);
+				for (int i = 0; i < cartItemsList.size(); i++) {
+				TravelPackages item = cartItemsList.get(i);
+				totalCost += item.getPackagePrice() * Integer.parseInt(selectedValues[i]);
+				}
+				System.out.println(totalCost);
+			}
+
+		else if(userSelectedOption.matches(".*\\d+.*")){
+			
+			Integer pageNumber = Integer.parseInt(userSelectedOption);
+			tdao.getPaginationResults(pageNumber);
 		}
 
 //		String selected = request.getParameter("myInput");
@@ -147,7 +156,7 @@ public class TravelPackagesController {
 		session.setAttribute("searchedItems", searchedItems);
 		session.setAttribute("cartItemsList", cartItemsList);
 		session.setAttribute("wishlistItemsList", wishlistItemsList);
-//		session.setAttribute("totalCost", totalCost);
+		session.setAttribute("totalCost", totalCost);
 		for(TravelPackages i : wishlistItemsList) {
 			System.out.println(i.getPackageId());
 		}

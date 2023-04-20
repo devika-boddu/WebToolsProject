@@ -123,6 +123,25 @@ public class TravelPackagesDao extends DAO {
 			
 	        return myEntities;
 	    }
-
+	
+	public List<TravelPackages> getPaginationResults(Integer pageNumber) {
+		 List<TravelPackages> travelPackages = null;
+		 begin();
+		 try {
+			 Query<TravelPackages> query = getSession().createQuery("FROM TravelPackages", TravelPackages.class);
+			 query.setFirstResult((4*(pageNumber-1)));
+			 query.setMaxResults(4*pageNumber);
+			 travelPackages = query.list();
+			 commit();
+			 close();
+			 System.out.println(travelPackages);
+		 }
+		 catch(Exception e) {
+			 System.out.println(e);
+			 e.printStackTrace();
+		 }
+		return travelPackages;
+	}
+	
 
 }
