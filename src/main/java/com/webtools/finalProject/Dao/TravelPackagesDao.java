@@ -100,8 +100,8 @@ public class TravelPackagesDao extends DAO {
 		
 		List<TravelPackages> myEntities = null;
 		try {
-			myEntities = getSession().createQuery("FROM TravelPackages where packageName LIKE '%"+enteredText+"%'", TravelPackages.class).getResultList();
-			System.out.println(myEntities);
+			myEntities = getSession().createQuery("FROM TravelPackages where packageDescription LIKE '%"+enteredText+"%'", TravelPackages.class).getResultList();
+			System.out.println("Searched Products:" + myEntities);
 		} catch (Exception e) {
 			System.out.println(e);
 			e.printStackTrace();
@@ -143,5 +143,24 @@ public class TravelPackagesDao extends DAO {
 		return travelPackages;
 	}
 	
+	public List<TravelPackages> getTravelPackagesForUser(int userId) {
+		List<TravelPackages> travelPackages = null;
+		begin();
+		try {
+			
+		    String hql = "SELECT tp FROM User u JOIN u.travelPackages tp WHERE u.id = :userId";
+		    Query<TravelPackages> query = getSession().createQuery(hql, TravelPackages.class);
+		    query.setParameter("userId", userId);
+		    travelPackages = query.list();
+		    commit();
+			close();
+			System.out.println(travelPackages);
+		}catch(Exception e) {
+			 System.out.println(e);
+			 e.printStackTrace();
+		 }
+		return travelPackages;
+		
+	}
 
 }

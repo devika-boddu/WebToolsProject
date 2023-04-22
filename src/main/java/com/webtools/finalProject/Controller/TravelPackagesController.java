@@ -12,9 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.razorpay.RazorpayException;
 import com.webtools.finalProject.Dao.TravelPackagesDao;
+import com.webtools.finalProject.Dao.UserDao;
+import com.webtools.finalProject.Dao.UserProductDao;
 import com.webtools.finalProject.Exception.UserException;
 import com.webtools.finalProject.Pojo.TravelPackages;
 import com.webtools.finalProject.Pojo.User;
+import com.webtools.finalProject.Pojo.UserProductMap;
 import com.webtools.finalProject.Pojo.Order;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -37,17 +40,27 @@ public class TravelPackagesController {
 	
 	@PostMapping("/products.htm")
 	public ModelAndView handleLogin(HttpServletRequest request, HttpServletResponse response, HttpSession session,
-			@ModelAttribute("travelPackage") TravelPackages travelPackage, BindingResult result) throws UserException, RazorpayException {
+			@ModelAttribute("travelPackage") TravelPackages travelPackage, @ModelAttribute("userproduct") UserProductMap userproduct, BindingResult result) throws UserException, RazorpayException {
 		
 		TravelPackagesDao tdao = new TravelPackagesDao();
 		String userSelectedOption = request.getParameter("userSelectedOption");
 		System.out.println(userSelectedOption);
 		
 		if(userSelectedOption.contains("Add To Cart")) {
+//			UserDao userDao = new UserDao();
+//			User currentUser = userDao.getUser(user.getName());
 			String pid = userSelectedOption.substring(12);
 			Integer tid= Integer.parseInt(pid);		
 			
 			TravelPackages addTocart=tdao.getSelectedProduct(tid);
+//			userproduct.setTravelPackages(addTocart);
+//			userproduct.setUser(user);
+			UserProductDao updao = new UserProductDao();
+			User user = (User) session.getAttribute("currentUser");
+			System.out.println("Logged In User "+ user);
+			System.out.println("Product Added To Cart"+ addTocart);
+			UserProductMap upmap = updao.create(new UserProductMap(user, addTocart));
+			System.out.println(upmap);
 			System.out.println(addTocart.getPackageName());
 			System.out.println(addTocart.getPackageDescription());
 			System.out.println(addTocart.getPackagePrice());
@@ -59,6 +72,7 @@ public class TravelPackagesController {
 			Integer tid= Integer.parseInt(pid);
 			
 			TravelPackages addToWishlist=tdao.getSelectedProduct(tid);
+			
 			System.out.println(addToWishlist.getPackageName());
 			System.out.println(addToWishlist.getPackageDescription());
 			System.out.println(addToWishlist.getPackagePrice());
@@ -93,12 +107,7 @@ public class TravelPackagesController {
 					count+=1;
 				}
 			}
-		
-		
-			
-			//int ind = wishlistItemsList.indexOf(removeItem);
-			//System.out.println("Index of item: " + ind);
-			//wishlistItemsList.remove(ind);
+
 			System.out.println(wishlistItemsList);			
 			session.setAttribute("wishlistItemsList", wishlistItemsList);
 		}
@@ -118,6 +127,9 @@ public class TravelPackagesController {
 			String enteredText = request.getParameter("textEntered");
 			System.out.println(enteredText);
 			searchedItems=tdao.getSearchedProducts(enteredText);
+			for(TravelPackages i : searchedItems) {
+				System.out.println(i.getPackageId());
+			}
 			optionSelected=1;
 		}else if (userSelectedOption.contains("Sort")) {
 			sortedItems=tdao.getSortedProducts();
@@ -138,18 +150,6 @@ public class TravelPackagesController {
 			Integer pageNumber = Integer.parseInt(userSelectedOption);
 			tdao.getPaginationResults(pageNumber);
 		}
-
-//		String selected = request.getParameter("myInput");
-//		System.out.println(selected);
-//		String pid = selected.substring(12);
-//		System.out.println(pid);
-//		Integer tid= Integer.parseInt(pid);
-//		TravelPackagesDao tdao = new TravelPackagesDao();
-//		TravelPackages addTocart=tdao.getSelectedProduct(tid);
-//		System.out.println(addTocart.getPackageName());
-//		System.out.println(addTocart.getPackageDescription());
-//		System.out.println(addTocart.getPackagePrice());
-//		cartItemsList.add(addTocart);
 		
 		session.setAttribute("sortedItems", sortedItems);
 		session.setAttribute("optionSelected", optionSelected);

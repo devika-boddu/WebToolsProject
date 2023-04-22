@@ -1,12 +1,19 @@
 package com.webtools.finalProject.Pojo;
 
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
+
+import java.util.HashSet;
+import java.util.Set;
+
 
 import com.webtools.finalProject.Pojo.User;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,11 +31,24 @@ public class TravelPackages {
 	private Integer packagePrice;
 	private String image;
 	
-	@ManyToOne
-	@JoinColumn(name = "id")
-	private User user;
+
+	
+	@Override
+	public String toString() {
+		return "TravelPackages [packageId=" + packageId + ", packageName=" + packageName + ", packageDescription="
+				+ packageDescription + ", packagePrice=" + packagePrice + ", image=" + image + ", users=" + users + "]";
+	}
+	@OneToMany(mappedBy = "travelPackages", cascade = CascadeType.ALL)
+	private Set<UserProductMap> users = new HashSet<UserProductMap>();
 	
 	
+
+	public Set<UserProductMap> getUsers() {
+		return users;
+	}
+	public void setUsers(Set<UserProductMap> users) {
+		this.users = users;
+	}
 	public TravelPackages() {
 		
 	}

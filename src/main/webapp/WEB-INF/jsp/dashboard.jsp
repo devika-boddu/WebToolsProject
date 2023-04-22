@@ -186,7 +186,9 @@
                             <div class="Card-Parent">
                                 
                                     <!-- <ul> -->
-                                        <c:forEach var="attribute" items="${sessionScope.products}">
+                                        <c:set target="${sessionScope}" property="searchedItems" value='${ "${sessionScope.optionSelected}" == "1" ? searchedItems : products}' />
+
+                                        <c:forEach var="attribute" items="${sessionScope.searchedItems}">
                                             <div class="Card">
                                                 <img src="${attribute.image}" alt="x" width="300" height="250">
                                                 <li>${attribute.packageId}</li>

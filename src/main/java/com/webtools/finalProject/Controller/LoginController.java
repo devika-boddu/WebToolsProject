@@ -109,6 +109,7 @@ public class LoginController {
 			TravelPackagesDao tdao = new TravelPackagesDao();
 			List<TravelPackages> products =tdao.getProducts();
 			session.setAttribute("products", products);
+			
 			for (TravelPackages i : products) {
 				 
 	            // Print all elements of ArrayList

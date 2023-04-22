@@ -1,10 +1,12 @@
 package com.webtools.finalProject.Pojo;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
 
 import jakarta.persistence.Id;
-
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
@@ -33,13 +35,24 @@ public class User {
 	private String password;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private Set<TravelPackages> travelPackages = new HashSet<>();
+    private Set<UserProductMap> userproducts = new  HashSet<>();
+	
+	
+//	@OneToMany
+//	private Set<TravelPackages> travelPackages = new HashSet<>();
 	
 //	@OneToOne(mappedBy="user", cascade = CascadeType.ALL)
 //    private Address address;
 	
+	
 	public User() {
 		
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", userproducts="
+				+ userproducts + "]";
 	}
 
 	public Integer getId() {
@@ -73,9 +86,17 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
+
+	public Set<UserProductMap> getUserproducts() {
+		return userproducts;
+	}
+
+	public void setUserproducts(Set<UserProductMap> userproducts) {
+		this.userproducts = userproducts;
+	}
+}
+
 	
 	
 
-}
+
