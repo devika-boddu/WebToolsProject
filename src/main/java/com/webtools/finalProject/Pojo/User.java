@@ -37,6 +37,11 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<UserProductMap> userproducts = new  HashSet<>();
 	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<UserWishlistMap> userwishlist = new  HashSet<>();
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	 private Set<UserOrderMap> userorderlist = new  HashSet<>();
 	
 //	@OneToMany
 //	private Set<TravelPackages> travelPackages = new HashSet<>();
@@ -45,15 +50,29 @@ public class User {
 //    private Address address;
 	
 	
+	public Set<UserOrderMap> getUserorderlist() {
+		return userorderlist;
+	}
+
+	public void setUserorderlist(Set<UserOrderMap> userorderlist) {
+		this.userorderlist = userorderlist;
+	}
+
+
+
 	public User() {
 		
 	}
 
+	
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", userproducts="
-				+ userproducts + "]";
+				+ userproducts + ", userwishlist=" + userwishlist + "]";
 	}
+
+
 
 	public Integer getId() {
 		return id;

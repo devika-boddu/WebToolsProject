@@ -2,21 +2,19 @@ package com.webtools.finalProject.Dao;
 
 import java.util.List;
 
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.query.Query;
 
 import com.webtools.finalProject.Pojo.User;
 import com.webtools.finalProject.Pojo.UserProductMap;
+import com.webtools.finalProject.Pojo.UserWishlistMap;
 
-
-
-public class UserProductDao extends DAO{
-	public UserProductMap create(UserProductMap userProduct) {
+public class UserWishlistDao extends DAO {
+	public UserWishlistMap create(UserWishlistMap userWishlist) {
         try {
             //save user object in the database
         	begin();
-        	getSession().persist(userProduct);
+        	getSession().persist(userWishlist);
         	commit();
         	close();
         	
@@ -28,19 +26,18 @@ public class UserProductDao extends DAO{
             
             
         }
-        return userProduct;
+        return userWishlist;
     }
-	
-	public List<UserProductMap> getAllUserProducts(User user){
+	public List<UserWishlistMap> getAllUserWishlistItems(User user){
 		System.out.println("userId inside UserProductMap: " + user);
-		List<UserProductMap> userProducts = null;
+		List<UserWishlistMap> userWishlistItems = null;
 		try {
 			begin();
 			System.out.println("Getting all the UserProducts added to the cart: -----");
-			Query<UserProductMap> query = getSession().createQuery("FROM UserProductMap where user = :user", UserProductMap.class);
+			Query<UserWishlistMap> query = getSession().createQuery("FROM UserWishlistMap where user = :user", UserWishlistMap.class);
 			query.setParameter("user", user);
-			userProducts = query.list();
-			System.out.println("userProducts from DB"+ userProducts);
+			userWishlistItems = query.list();
+			System.out.println("userProducts from DB"+ userWishlistItems);
 			commit();
 			close();
 		}
@@ -48,9 +45,7 @@ public class UserProductDao extends DAO{
 			System.out.println(e);
 			e.printStackTrace();
 		}
-		return userProducts;
+		return userWishlistItems;
 		
 	}
-	
-	
 }

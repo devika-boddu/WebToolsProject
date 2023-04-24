@@ -41,8 +41,18 @@ public class TravelPackages {
 	@OneToMany(mappedBy = "travelPackages", cascade = CascadeType.ALL)
 	private Set<UserProductMap> users = new HashSet<UserProductMap>();
 	
-	
+	@OneToMany(mappedBy = "travelPackages", cascade = CascadeType.ALL)
+	private Set<UserWishlistMap> usersWishlist = new HashSet<UserWishlistMap>();
 
+	@OneToMany(mappedBy = "travelPackages", cascade = CascadeType.ALL)
+	private Set<UserOrderMap> userOrderMap = new HashSet<UserOrderMap>();
+	
+	public Set<UserWishlistMap> getUsersWishlist() {
+		return usersWishlist;
+	}
+	public void setUsersWishlist(Set<UserWishlistMap> usersWishlist) {
+		this.usersWishlist = usersWishlist;
+	}
 	public Set<UserProductMap> getUsers() {
 		return users;
 	}

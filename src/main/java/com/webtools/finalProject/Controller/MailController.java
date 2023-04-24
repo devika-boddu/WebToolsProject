@@ -12,6 +12,7 @@ import org.springframework.web.servlet.View;
 
 import com.lowagie.text.DocumentException;
 import com.webtools.finalProject.Pojo.User;
+import com.webtools.finalProject.Pojo.TravelPackages;
 import com.webtools.finalProject.Util.FilesExporter;
 
 
@@ -42,13 +43,9 @@ public class MailController {
 	
 	@PostMapping("/email.htm")
 	public void sendEmail(HttpSession session, HttpServletResponse response) throws MessagingException, DocumentException, IOException {
-//		SimpleMailMessage newMessage = new SimpleMailMessage();
-//		newMessage.setFrom("tripitadventures99@gmail.com");
-//		newMessage.setTo("sindhurabandaru99@gmail.com");
-//		newMessage.setSubject("This is your Reminder");
-//		newMessage.setText("Friendly Reminder");
 		
 		User user = (User)session.getAttribute("currentUser");
+		//TravelPackages order = (TravelPackages)session.getAttribute("ordersList");
 		String email = user.getEmail();
 		System.out.println(email);
 		
@@ -76,16 +73,13 @@ public class MailController {
 			e.printStackTrace();
 		}
 		
-		
-		
 	}
 	
-//	@GetMapping("/email.htm")
 	public void viewreport(HttpSession session, HttpServletResponse response) throws MessagingException, DocumentException, IOException {
 		
 		User user = (User)session.getAttribute("currentUser");
 		try {
-			exporter.exportToPDF(user, response);
+			exporter.exportToPDF(user, response, session);
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

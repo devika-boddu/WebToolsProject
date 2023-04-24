@@ -25,6 +25,8 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <mapping class="com.webtools.finalProject.Pojo.User"/>
         <mapping class="com.webtools.finalProject.Pojo.TravelPackages"/>
-         <mapping class="com.webtools.finalProject.Pojo.UserProductMap"/>
+        <mapping class="com.webtools.finalProject.Pojo.UserProductMap"/>
+        <mapping class="com.webtools.finalProject.Pojo.UserWishlistMap"/>
+        <mapping class="com.webtools.finalProject.Pojo.UserOrderMap"/>
     </session-factory>
 </hibernate-configuration>

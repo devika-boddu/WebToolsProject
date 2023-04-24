@@ -114,7 +114,7 @@ public class TravelPackagesDao extends DAO {
 			
 			List<TravelPackages> myEntities = null;
 			try {
-				myEntities = getSession().createQuery("FROM TravelPackages ORDER BY packageName ASC", TravelPackages.class).getResultList();
+				myEntities = getSession().createQuery("FROM TravelPackages ORDER BY packageDescription ASC", TravelPackages.class).getResultList();
 				System.out.println(myEntities);
 			} catch (Exception e) {
 				System.out.println(e);
