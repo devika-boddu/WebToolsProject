@@ -33,6 +33,7 @@ public class TravelPackagesController {
 	
 	String id = null;
 	int count =0 ;
+	int updateValue =0;
 	List<TravelPackages> cartItemsList = new ArrayList<TravelPackages>();
 	List<TravelPackages> wishlistItemsList = new ArrayList<TravelPackages>();
 	List<TravelPackages> searchedItems = new ArrayList<TravelPackages>();
@@ -41,7 +42,8 @@ public class TravelPackagesController {
 	List<TravelPackages> cartList = new ArrayList<TravelPackages>();
 	List<TravelPackages> wishList = new ArrayList<TravelPackages>();
 	List<TravelPackages> orderCartList = new ArrayList<TravelPackages>();
-
+	List<TravelPackages> paginationResults = new ArrayList<TravelPackages>();
+	List<TravelPackages> previousOrderList = new ArrayList<TravelPackages>();
 
 	
 	int totalCost = 0;
@@ -141,14 +143,17 @@ public class TravelPackagesController {
 
 		}
 		else if(userSelectedOption.contains("Delete")) {
+			wishList = (List<TravelPackages>) session.getAttribute("travelPackagesWishlist");
+			UserWishlistDao uwdao = new UserWishlistDao();
 			String pid = userSelectedOption.substring(7);
 			
 			Integer tid= Integer.parseInt(pid);
-			
+			System.out.println("Delete Id: "+tid);
 			TravelPackages removeItem = tdao.getSelectedProduct(tid);
-			for(TravelPackages i : wishlistItemsList) {
+			for(TravelPackages i : wishList) {
 				if(removeItem.getPackageId() == i.getPackageId()) {
-					wishlistItemsList.remove(count);
+					wishList.remove(count);
+					uwdao.deleteSelectedWishlistItem(i);
 					break;
 				}	
 				else {
@@ -156,31 +161,30 @@ public class TravelPackagesController {
 				}
 			}
 
-			System.out.println(wishlistItemsList);			
-			session.setAttribute("wishlistItemsList", wishlistItemsList);
+			System.out.println(wishList);			
+			session.setAttribute("travelPackagesWishlist", wishList);
 		}
 		else if(userSelectedOption.contains("Pay")) {
-			
+			previousOrderList = (List<TravelPackages>) session.getAttribute("travelPackagesOrders");
 			orderCartList = (List<TravelPackages>) session.getAttribute("travelPackagesCart");
+			User user = (User) session.getAttribute("currentUser");
+			UserOrderDao uodao = new UserOrderDao();
 			for(TravelPackages order: orderCartList) {
-					ordersList.add(order);
-					aTotalCost+=order.getPackagePrice();
-				}
-					cartList.clear();
-					session.setAttribute("travelPackagesCart", cartList);
-					//session.setAttribute("ordersList", ordersList);
-					System.out.println(ordersList);
-					System.out.println("Orders");	
-					UserOrderDao uodao = new UserOrderDao();
-					
-					User user = (User) session.getAttribute("currentUser");
-					for(TravelPackages i : ordersList) {
-						uodao.create(new UserOrderMap(user, tdao.getSelectedProduct(i.getPackageId()),tdao.getSelectedProduct(i.getPackageId()).getPackagePrice()));
-					}
-					//uodao.delete("userproducts");
-					session.setAttribute("travelPackagesOrders", ordersList);
-					System.out.println(aTotalCost);
-					
+				ordersList.add(order);
+				aTotalCost+=order.getPackagePrice();
+				uodao.create(new UserOrderMap(user, tdao.getSelectedProduct(order.getPackageId()),tdao.getSelectedProduct(order.getPackageId()).getPackagePrice()));
+			}
+			for(TravelPackages order: previousOrderList) {
+				ordersList.add(order);
+			}
+			cartList.clear();
+			UserProductDao updao= new UserProductDao();
+			updao.deleteAllTravelPackages();
+			session.setAttribute("travelPackagesCart", cartList);
+			System.out.println(ordersList);
+			System.out.println("Orders");
+			session.setAttribute("travelPackagesOrders", ordersList);
+			System.out.println(aTotalCost);					
 		}
 		else if(userSelectedOption.contains("View")) {
 			String pid = userSelectedOption.substring(5);
@@ -216,13 +220,23 @@ public class TravelPackagesController {
 		else if(userSelectedOption.matches(".*\\d+.*")){
 			
 			Integer pageNumber = Integer.parseInt(userSelectedOption);
-			tdao.getPaginationResults(pageNumber);
+			paginationResults = tdao.getPaginationResults(pageNumber);
+			optionSelected=3;
 		}
-		
+		else if(userSelectedOption.contains("Update")) {
+			UserDao userdao = new UserDao();
+			User user = (User) session.getAttribute("currentUser");
+			String username = request.getParameter("username");
+			String email = request.getParameter("email");
+			userdao.updateUser(user.getId(),username, email );
+			updateValue =1;
+		}
 		session.setAttribute("sortedItems", sortedItems);
 		session.setAttribute("optionSelected", optionSelected);
 		session.setAttribute("searchedItems", searchedItems);
 		session.setAttribute("aTotalCost", aTotalCost);
+		session.setAttribute("paginationResults", paginationResults);
+		session.setAttribute("updateValue", updateValue);
 		System.out.println();
 		for(TravelPackages i : wishlistItemsList) {
 			System.out.println(i.getPackageId());

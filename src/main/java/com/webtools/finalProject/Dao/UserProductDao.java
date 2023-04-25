@@ -52,5 +52,24 @@ public class UserProductDao extends DAO{
 		
 	}
 	
+	public void deleteAllTravelPackages(){
+		try {
+			begin();
+			String hql = "DELETE FROM UserProductMap";
+			Query<UserProductMap> query = getSession().createQuery(hql);
+			query.executeUpdate();
+			commit();
+		} catch (Exception e) {
+			rollback();
+			e.printStackTrace();
+		}
+	}
+
+
+
+
+
+
+	
 	
 }

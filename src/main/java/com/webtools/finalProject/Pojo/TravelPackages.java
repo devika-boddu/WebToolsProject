@@ -38,13 +38,13 @@ public class TravelPackages {
 		return "TravelPackages [packageId=" + packageId + ", packageName=" + packageName + ", packageDescription="
 				+ packageDescription + ", packagePrice=" + packagePrice + ", image=" + image + ", users=" + users + "]";
 	}
-	@OneToMany(mappedBy = "travelPackages", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "travelPackages", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<UserProductMap> users = new HashSet<UserProductMap>();
 	
-	@OneToMany(mappedBy = "travelPackages", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "travelPackages", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<UserWishlistMap> usersWishlist = new HashSet<UserWishlistMap>();
 
-	@OneToMany(mappedBy = "travelPackages", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "travelPackages", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<UserOrderMap> userOrderMap = new HashSet<UserOrderMap>();
 	
 	public Set<UserWishlistMap> getUsersWishlist() {

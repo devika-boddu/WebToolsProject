@@ -19,6 +19,8 @@ import com.webtools.finalProject.Pojo.User;
 import com.webtools.finalProject.Validator.SignupValidator;
 import com.webtools.finalProject.Dao.UserDao;
 
+import java.util.List;
+
 
 
 @Controller
@@ -47,38 +49,90 @@ public class SignupController {
 			String name = request.getParameter("name");
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
+			Integer nameCount =0;
+			Integer emailCount = 0;
 //			String streetName = request.getParameter("streetName");
 //			int streetNum = Integer.parseInt(request.getParameter("streetNum"));
 //			String city = request.getParameter("city");
 //			String state = request.getParameter("state");
 //			String zipcode = request.getParameter("zipcode");
+			List<User> users =userDao.getAllUsers();
+			if(!users.isEmpty()) {
+					for(User currentUser: users) {
+						if(name.equals(currentUser.getName())) {
+							user.setName("");
+							user.setPassword(password);
+							user.setEmail(email);
+							request.setAttribute("userNameAlertMessage", "Username already exists");
+							System.out.println("Username already exist");
+							nameCount+=1;
+							return "signup";
+						}else if(email.equals(currentUser.getEmail())) {
+							user.setName("");
+							user.setPassword("");
+							user.setEmail("");
+							request.setAttribute("emailAlertMessage", "Email already exists");
+							System.out.println("Email already exist");
+							emailCount+=1;
+							return "signup";
+
+						}
+					}
+					if(nameCount == 0 && emailCount ==0) {
+						user.setEmail(email);
+						user.setName(name);
+						user.setPassword(password);
+						try {
+							userDao.save(user);
+							//addressDao.save(address);
+							session.setAttribute("user", user);
+//							session.setAttribute("address", address);
+							
+						} catch (UserException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+						return "userLogin";
+					}
+				}else {
+					user.setEmail(email);
+					user.setName(name);
+					user.setPassword(password);
+
+					try {
+						userDao.save(user);
+						//addressDao.save(address);
+						session.setAttribute("user", user);
+//						session.setAttribute("address", address);
+						
+					} catch (UserException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+					return "userLogin";
+
+				}
+			
+			
 			
 			System.out.println(name);
 			System.out.println(email);
 			System.out.println(password);
 			
-			user.setEmail(email);
-			user.setName(name);
-			user.setPassword(password);
+						
 			
-//			Address address = new Address();
-//			address.setStreetName(streetName);
-//			address.setStreetNum(streetNum);
-//			address.setCity(city);
-//			address.setState(state);
-//			address.setZip(zipcode);
-//			AddressDao addressDao = new AddressDao();
-			
-			try {
-				userDao.save(user);
-				//addressDao.save(address);
-				session.setAttribute("user", user);
-//				session.setAttribute("address", address);
-				
-			} catch (UserException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				userDao.save(user);
+//				//addressDao.save(address);
+//				session.setAttribute("user", user);
+////				session.setAttribute("address", address);
+//				
+//			} catch (UserException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			return "userLogin";
 			
 		}

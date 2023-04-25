@@ -5,6 +5,77 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #F2F2F2;
+                color: #333;
+            }
+            
+            h1 {
+                text-align: center;
+                margin-top: 50px;
+            }
+            
+            table {
+                margin: 0 auto;
+                border-collapse: collapse;
+                background-color: white;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            }
+            
+            td {
+                padding: 10px;
+                text-align: left;
+                vertical-align: middle;
+                border: 1px solid #CCC;
+            }
+            
+            input[type="text"],
+            input[type="password"] {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid #CCC;
+                border-radius: 4px;
+                box-sizing: border-box;
+                margin-bottom: 10px;
+            }
+            
+            input[type="submit"] {
+                background-color: #333;
+                color: #FFF;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            
+            input[type="submit"]:hover {
+                background-color: #555;
+            }
+            
+            button[type="submit"] {
+                background-color: transparent;
+                color: #333;
+                border: none;
+                cursor: pointer;
+            }
+            
+            button[type="submit"]:hover {
+                text-decoration: underline;
+            }
+            
+            .error {
+                color: red;
+            }
+            
+            .alert {
+                background-color: #FFD966;
+                padding: 10px;
+                margin-top: 10px;
+                border-radius: 4px;
+            }
+        </style>
     </head>
     <script>
         function showAlert(message) {
@@ -22,7 +93,7 @@
 		</tr>
 		<tr>
 		    <td>Password</td>
-		    <td><form:input path="password" size="30" /> <font color="red"><form:errors path="password"/></font></td>
+		    <td><form:input path="password" type="password" size="30" /> <font color="red"><form:errors path="password"/></font></td>
 		</tr>
 		
     	<tr>

@@ -75,6 +75,7 @@ public class TravelPackagesDao extends DAO {
 	}
 	
 	public void update(Integer packageID, String packageName, String packageDescription, Integer packagePrice, String imageURL ) throws UserException {
+		
 		TravelPackages travelPackages = getSelectedProduct(packageID);
 		
 		if(travelPackages!=null) {
