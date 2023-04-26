@@ -34,6 +34,7 @@ public class TravelPackagesController {
 	String id = null;
 	int count =0 ;
 	int updateValue =0;
+	int totalSelected = 0 ;
 	List<TravelPackages> cartItemsList = new ArrayList<TravelPackages>();
 	List<TravelPackages> wishlistItemsList = new ArrayList<TravelPackages>();
 	List<TravelPackages> searchedItems = new ArrayList<TravelPackages>();
@@ -190,28 +191,53 @@ public class TravelPackagesController {
 
 		}
 		else if(userSelectedOption.contains("Delete")) {
-			wishList = (List<TravelPackages>) session.getAttribute("travelPackagesWishlist");
-			UserWishlistDao uwdao = new UserWishlistDao();
-			String pid = userSelectedOption.substring(7);
-			
+			String pid = userSelectedOption.substring(8);
+			int wCount =0;
 			Integer tid= Integer.parseInt(pid);
-			System.out.println("Delete Id: "+tid);
-			TravelPackages removeItem = tdao.getSelectedProduct(tid);
-			for(TravelPackages i : wishList) {
-				if(removeItem.getPackageId() == i.getPackageId()) {
-					wishList.remove(count);
-					uwdao.deleteSelectedWishlistItem(i);
-					break;
-				}	
-				else {
-					count+=1;
+			if(userSelectedOption.contains("DeleteW")) {
+				wishList = (List<TravelPackages>) session.getAttribute("travelPackagesWishlist");
+				UserWishlistDao uwdao = new UserWishlistDao();
+				
+			
+				
+				System.out.println("Delete Id: "+tid);
+				TravelPackages removeItem = tdao.getSelectedProduct(tid);
+				for(TravelPackages i : wishList) {
+					if(removeItem.getPackageId() == i.getPackageId()) {
+						wishList.remove(wCount);
+						uwdao.deleteSelectedWishlistItem(i);
+						break;
+					}	
+					else {
+						wCount+=1;
+					}
 				}
-			}
 
-			System.out.println(wishList);			
-			session.setAttribute("travelPackagesWishlist", wishList);
-		}
-		else if(userSelectedOption.contains("Pay")) {
+				System.out.println(wishList);			
+				session.setAttribute("travelPackagesWishlist", wishList);
+
+			}else {
+				int cartCount =0;
+				cartList = (List<TravelPackages>) session.getAttribute("travelPackagesCart");
+				UserProductDao uwdao = new UserProductDao();
+				System.out.println("Delete Id: "+tid);
+				TravelPackages removeItem = tdao.getSelectedProduct(tid);
+				for(TravelPackages i : cartList) {
+					if(removeItem.getPackageId() == i.getPackageId()) {
+						cartList.remove(cartCount);
+						uwdao.deleteSelectedCartlistItem(i);
+						break;
+					}	
+					else {
+						cartCount+=1;
+					}
+				}
+
+				System.out.println(cartList);			
+				session.setAttribute("travelPackagesCart", cartList);
+			}
+			}
+		else if(userSelectedOption.contains("Orders")) {
 			previousOrderList = (List<TravelPackages>) session.getAttribute("travelPackagesOrders");
 			orderCartList = (List<TravelPackages>) session.getAttribute("travelPackagesCart");
 			User user = (User) session.getAttribute("currentUser");
@@ -253,7 +279,9 @@ public class TravelPackagesController {
 		}else if (userSelectedOption.contains("Sort")) {
 			sortedItems=tdao.getSortedProducts();
 			optionSelected=2;
-		}else if(userSelectedOption.contains("Total")){
+		}
+		else if(userSelectedOption.contains("Total")){
+			totalSelected =1 ;
 			orderCartList = (List<TravelPackages>) session.getAttribute("travelPackagesCart");
 			for(TravelPackages order: orderCartList) {
 				ordersList.add(order);
@@ -292,6 +320,7 @@ public class TravelPackagesController {
 		session.setAttribute("aTotalCost", aTotalCost);
 		session.setAttribute("paginationResults", paginationResults);
 		session.setAttribute("updateValue", updateValue);
+		session.setAttribute("totalSelected", totalSelected);
 				System.out.println();
 		for(TravelPackages i : wishlistItemsList) {
 			System.out.println(i.getPackageId());

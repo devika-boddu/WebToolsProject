@@ -2,8 +2,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Numart</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet">
 <style>
 * {box-sizing: border-box}
 body {font-family: "Lato", sans-serif;}
@@ -49,7 +55,7 @@ body {font-family: "Lato", sans-serif;}
   border: 1px solid #ccc;
   width: 80%;
   border-left: none;
-  height: 900px;
+  height: 1300px;
   overflow: hidden;
 }
 .Card-Parent{
@@ -103,13 +109,16 @@ body {font-family: "Lato", sans-serif;}
           <button class="tablinks" onclick="openPanel(event, 'Home')" >Home</button>
           <button class="tablinks" onclick="openPanel(event, 'Products')" id="defaultOpen">Products</button>
           <button class="tablinks" onclick="openPanel(event, 'Cart')">Cart</button>
+          <button class="tablinks" onclick="openPanel(event, 'Wishlist')">Wishlist</button>
+          <button class="tablinks" onclick="openPanel(event, 'Orders')">Orders</button>
+          <button class="tablinks" onclick="openPanel(event, 'Profile')">Profile</button>
         </div>
         
         <div id="Home" class="tabcontent">
             <h2>Hi
                 <c:out value="${sessionScope.currentUser.name}" />
             </h2>
-            <h4>Welcome to Nuemart!----</h4>
+            <h4>Welcome to Nuemart!</h4>
         </div>
 
         
@@ -124,9 +133,9 @@ body {font-family: "Lato", sans-serif;}
                             <input type = "text" name = "textEntered"/>
                             <input type = "submit" class="btn btn-warning search" value = "Search" name = "userSelectedOption"/>
                             <input type = "submit" class="btn btn-warning sort" value = "Sort" name = "userSelectedOption"/>
-                            <input type = "submit" value = "1" name = "userSelectedOption"/>
+                            <!-- <input type = "submit" value = "1" name = "userSelectedOption"/>
                             <input type = "submit" value = "2" name = "userSelectedOption"/>
-                            <input type = "submit" value = "3" name = "userSelectedOption"/>
+                            <input type = "submit" value = "3" name = "userSelectedOption"/> -->
                             <div class = "Card-Parent searchedItems">
                                 <!-- <h3>Hi</h3>
                                 <c:out value="${sessionScope.optionSelected}" /> -->
@@ -146,17 +155,19 @@ body {font-family: "Lato", sans-serif;}
                                             <!-- <input  type="submit" value="View Cart" name="userSelectedOption" /> -->
                                             <div class="buttons">
                                                 <div class="cart" >
-                                                    <input class="in" type="submit" id="addToCart_${attribute.packageId}" value="" name="userSelectedOption" />
+                                                    <input class="in" type="submit" id="seaddToCart_${attribute.packageId}" value="" name="userSelectedOption" />
                                                     <span class="icon"><i class="fa fa-shopping-cart"></i></span>
                                                 </div>
                                                 <div class="cart" >
-                                                    <input class="in" type="submit" id="addToWishlist_${attribute.packageId}" value="" name="userSelectedOption" />
+                                                    <input class="in" type="submit" id="seaddToWishlist_${attribute.packageId}" value="" name="userSelectedOption" />
                                                     <span class="icon"><i class="fa fa-heart"></i></span>
                                                 </div>
-                                                <div class="cart">
-                                                    <input class="in" type="submit" id="view_${attribute.packageId}" value="" name="userSelectedOption" />
+                                                <form method="get" action="view.htm">
+                                                    <div class="cart">
+                                                    <input class="in" type="submit" id="seview_${attribute.packageId}" value="" name="userSelectedOption" />
                                                     <span class="icon"><i class="fa fa-eye"></i></span>
                                                     </div>
+                                                </form>
                                             </div>
                                             <script>
                                                 function concatenateStrings(text1, text2, inputId) {
@@ -166,9 +177,9 @@ body {font-family: "Lato", sans-serif;}
                                                 
                                                 //concatenateStrings(`<i class='fa fa-shopping-cart'></i> Add To Cart", "${attribute.packageId}", "addToCart_${attribute.packageId}");
 
-                                                concatenateStrings("Add To Cart", "${attribute.packageId}", "addToCart_${attribute.packageId}");
-                                                concatenateStrings("Add To Wishlist", "${attribute.packageId}", "addToWishlist_${attribute.packageId}");
-                                                concatenateStrings("View", "${attribute.packageId}", "view_${attribute.packageId}");
+                                                concatenateStrings("Add To Cart", "${attribute.packageId}", "seaddToCart_${attribute.packageId}");
+                                                concatenateStrings("Add To Wishlist", "${attribute.packageId}", "seaddToWishlist_${attribute.packageId}");
+                                                concatenateStrings("View", "${attribute.packageId}", "seview_${attribute.packageId}");
 
                                             </script>
                                         </div>
@@ -181,35 +192,36 @@ body {font-family: "Lato", sans-serif;}
                     </div>
                     <div>
                         <form method = "post" action = "products.htm">
-                            <label>Sort by Package Name: </label>
                             <!-- <input type = "submit" class="btn btn-warning sort" value = "Sort" name = "userSelectedOption"/> -->
                             <div class = "Card-Parent sortedItems">
                                 <c:set var="optionSelected" scope="session" value="${sessionScope.optionSelected}"/>  
                                 <c:if test="${optionSelected == '2'}"> 
                                     <c:forEach var="attribute" items="${sessionScope.sortedItems}">
-                                    <div class="Card">
+                                     <div class="Card">
                                         <img src="${attribute.image}" alt="x" width="300" height="250">
                                         <li>${attribute.packageId}</li>
                                         <li>${attribute.packageName}</li>
                                         <li>${attribute.packagePrice}</li>
                                         <li>${attribute.packageDescription}</li>
-                                        <!-- <input  type="submit" value="${attribute.packageId}" name="userSelectedOption" /> -->
+                                       
                                         
                                         <input  type="hidden" value="${attribute.packageId}" name="pId" />
-                                        <!-- <input  type="submit" value="View Cart" name="userSelectedOption" /> -->
+                                       
                                         <div class="buttons">
                                             <div class="cart" >
-                                                <input class="in" type="submit" id="addToCart_${attribute.packageId}" value="" name="userSelectedOption" />
+                                                <input class="in" type="submit" id="soaddToCart_${attribute.packageId}" value="" name="userSelectedOption" />
                                                 <span class="icon"><i class="fa fa-shopping-cart"></i></span>
                                             </div>
                                             <div class="cart" >
-                                                <input class="in" type="submit" id="addToWishlist_${attribute.packageId}" value="" name="userSelectedOption" />
+                                                <input class="in" type="submit" id="soaddToWishlist_${attribute.packageId}" value="" name="userSelectedOption" />
                                                 <span class="icon"><i class="fa fa-heart"></i></span>
                                             </div>
-                                            <div class="cart">
-                                                <input class="in" type="submit" id="view_${attribute.packageId}" value="" name="userSelectedOption" />
+                                            <form method="get" action="view.htm">
+                                                <div class="cart">
+                                                <input class="in" type="submit" id="soview_${attribute.packageId}" value="" name="userSelectedOption" />
                                                 <span class="icon"><i class="fa fa-eye"></i></span>
                                                 </div>
+                                            </form>
                                         </div>
                                         <script>
                                             function concatenateStrings(text1, text2, inputId) {
@@ -219,9 +231,9 @@ body {font-family: "Lato", sans-serif;}
                                             
                                             //concatenateStrings(`<i class='fa fa-shopping-cart'></i> Add To Cart", "${attribute.packageId}", "addToCart_${attribute.packageId}");
 
-                                            concatenateStrings("Add To Cart", "${attribute.packageId}", "addToCart_${attribute.packageId}");
-                                            concatenateStrings("Add To Wishlist", "${attribute.packageId}", "addToWishlist_${attribute.packageId}");
-                                            concatenateStrings("View", "${attribute.packageId}", "view_${attribute.packageId}");
+                                            concatenateStrings("Add To Cart", "${attribute.packageId}", "soaddToCart_${attribute.packageId}");
+                                            concatenateStrings("Add To Wishlist", "${attribute.packageId}", "soaddToWishlist_${attribute.packageId}");
+                                            concatenateStrings("View", "${attribute.packageId}", "soview_${attribute.packageId}");
 
                                         </script>
                                     </div>
@@ -319,22 +331,24 @@ body {font-family: "Lato", sans-serif;}
                                                 <input class="in" type="submit" id="addToWishlist_${attribute.packageId}" value="" name="userSelectedOption" />
                                                 <span class="icon"><i class="fa fa-heart"></i></span>
                                             </div>
-                                            <div class="cart">
+                                            <form method="get" action="view.htm">
+                                                <div class="cart">
                                                 <input class="in" type="submit" id="view_${attribute.packageId}" value="" name="userSelectedOption" />
                                                 <span class="icon"><i class="fa fa-eye"></i></span>
-                                            </div>
+                                                </div>
+                                            </form>
                                         </div>
                                         <script>
-                                            function concatenateStrings(text1, text2, inputId) {
+                                            function concatenateStrings1(text1, text2, inputId) {
                                                 let result = text1 + ' ' + text2; // Concatenate with a space in between
                                                 document.getElementById(inputId).setAttribute("value", result);
                                             }
                                             
                                             //concatenateStrings(`<i class='fa fa-shopping-cart'></i> Add To Cart", "${attribute.packageId}", "addToCart_${attribute.packageId}");
 
-                                            concatenateStrings("Add To Cart", "${attribute.packageId}", "addToCart_${attribute.packageId}");
-                                            concatenateStrings("Add To Wishlist", "${attribute.packageId}", "addToWishlist_${attribute.packageId}");
-                                            concatenateStrings("View", "${attribute.packageId}", "view_${attribute.packageId}");
+                                            concatenateStrings1("Add To Cart", "${attribute.packageId}", "addToCart_${attribute.packageId}");
+                                            concatenateStrings1("Add To Wishlist", "${attribute.packageId}", "addToWishlist_${attribute.packageId}");
+                                            concatenateStrings1("View", "${attribute.packageId}", "view_${attribute.packageId}");
 
                                         </script>
                                     </div>
@@ -348,7 +362,7 @@ body {font-family: "Lato", sans-serif;}
         </form>
     </div>
     <div id="Cart" class="tabcontent">
-        <p>Cart Tab----</p>
+       
         <form method="post" name="products" action="products.htm">
             <div class="container py-5">
                 <div class="Card-Parent">
@@ -360,6 +374,7 @@ body {font-family: "Lato", sans-serif;}
                             <li>${attribute.packageName}</li>
                             <li>${attribute.packagePrice}</li>
                             <li>${attribute.packageDescription}</li>
+
                             <label for="qty">Quantity</label><span id="myText"></span>
                             <select name="qty" id="qty">
                                 <option name="qtySelected" value="1">1</option>
@@ -367,32 +382,152 @@ body {font-family: "Lato", sans-serif;}
                                 <option name="qtySelected" value="3">3</option>
                                 <option name="qtySelected" value="4">4</option>
                             </select>
-                        </div>
-                        <script>
-                            function myFunction(){
-                            const qty = document.querySelector('#qty');
-                            let selectedValue = qty.value;
-                            
-                            qty.addEventListener('change', () => {
-                                selectedValue = qty.value;
-                                document.getElementById("myText").innerHTML = selectedValue;
-                                console.log('Selected value:', selectedValue);
-                            });}
+
+                            <input  type="hidden" value="${attribute.packageId}" name="pId" />
+                            <div class="buttons">
+                                <div class="cart" >
+                                    <input class="in" type="submit" id="caddToWishlist_${attribute.packageId}" value="" name="userSelectedOption" />
+                                    <span class="icon"><i class="fa fa-heart"></i></span>
+                                </div>
+                                <form method="get" action="view.htm">
+                                <div class="cart">
+                                    <input class="in" type="submit" id="cview_${attribute.packageId}" value="" name="userSelectedOption" />
+                                    <span class="icon"><i class="fa fa-eye"></i></span>
+                                </div>
+                            </form>
+                                <div class="cart">
+                                    <input class="in" type="submit" id="cdelete_${attribute.packageId}" value="" name="userSelectedOption" />
+                                    <span class="icon"><i class="fas fa-trash-alt"></i></span>
+                                </div>
+                                
+                            </div>
+                           
+                            <script>
+                                function concatenateStrings2(text1, text2, cartInput) {
+                                    let result = text1 + ' ' + text2; // Concatenate with a space in between
+                                    document.getElementById(cartInput).setAttribute("value", result);
+                                }
+                               
+                                //concatenateStrings(`<i class='fa fa-shopping-cart'></i> Add To Cart", "${attribute.packageId}", "addToCart_${attribute.packageId}");
+
+                                concatenateStrings2("Add To Wishlist", "${attribute.packageId}", "caddToWishlist_${attribute.packageId}");
+                                concatenateStrings2("View", "${attribute.packageId}", "cview_${attribute.packageId}");
+                                concatenateStrings2("DeleteC", "${attribute.packageId}", "cdelete_${attribute.packageId}");
                             </script>
+                        </div>
+
                     </c:forEach>
                 </div>
 
                 <input type="submit" id="updateQuantity" value="Total Price" name="userSelectedOption" />
                 Cost : <c:out value="${sessionScope.aTotalCost}"/> <br/>
-                <input type="submit" id="processOrder" value="Pay" name="userSelectedOption" />
+
+                <!-- <input type="submit" id="processOrder" value="Pay" name="userSelectedOption" /> -->
                 
             </div>
         </form>
-        <form method = "get" name="payments" action = "payment">
-            <input type="submit" id="processOrder" value="Payment" name="userSelectedOption" />
-        </form>  
+        <c:set var="totalSelected" scope="session" value="${sessionScope.totalSelected}"/>  
+        <c:if test="${totalSelected == '1' }"> 
+            <form method = "get" name="payments" action = "payment">
+                <input type="submit" id="processOrder" value="Checkout" name="userSelectedOption" />
+            </form>  
+        </c:if>
     </div>
+    <div id="Wishlist" class="tabcontent">
+        <p>Wishlist Tab----</p>
+        <form method="post" name="viewedAssessmentsForm" action="products.htm">
+            <div class="container py-5">
+                <div class = "Card-Parent searchedItems">
+                    <c:forEach var="attribute" items="${sessionScope.travelPackagesWishlist}">
+                        <div class="Card">
+                            <img src="${attribute.image}" alt="x" width="300" height="250">
+                            <li>${attribute.packageId}</li>
+                            <li>${attribute.packageName}</li>
+                            <li>${attribute.packagePrice}</li>
+                            <li>${attribute.packageDescription}</li>
+
+                           
+                            <input  type="hidden" value="${attribute.packageId}" name="pId" />
+                            <div class="buttons">
+                                <div class="cart" >
+                                    <input class="in" type="submit" id="waddToCart_${attribute.packageId}" value="" name="userSelectedOption" />
+                                    <span class="icon"><i class="fa fa-shopping-cart"></i></span>
+                                </div>
+                                <form method="get" action="view.htm">
+                                <div class="cart">
+                                    <input class="in" type="submit" id="wview_${attribute.packageId}" value="" name="userSelectedOption" />
+                                    <span class="icon"><i class="fa fa-eye"></i></span>
+                                </div>
+                            </form>
+                                <div class="cart">
+                                    <input class="in" type="submit" id="wdelete_${attribute.packageId}" value="" name="userSelectedOption" />
+                                    <span class="icon"><i class="fas fa-trash-alt"></i></span>
+                                </div>
+                                
+                            </div>
+                           
+                            <script>
+                                function concatenateStrings2(text1, text2, wishInput) {
+                                    let result = text1 + ' ' + text2; // Concatenate with a space in between
+                                    document.getElementById(wishInput).setAttribute("value", result);
+                                }
+                               
+                                //concatenateStrings(`<i class='fa fa-shopping-cart'></i> Add To Cart", "${attribute.packageId}", "addToCart_${attribute.packageId}");
+
+                                concatenateStrings2("Add To Cart", "${attribute.packageId}", "waddToCart_${attribute.packageId}");
+                                concatenateStrings2("View", "${attribute.packageId}", "wview_${attribute.packageId}");
+                                concatenateStrings2("DeleteW", "${attribute.packageId}", "wdelete_${attribute.packageId}");
+                            </script>
+                        </div>
+                        
+                    </c:forEach>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="Orders" class="tabcontent">
+        <div class="Card-Parent">
+            <c:forEach var="attribute" items="${sessionScope.travelPackagesOrders}">
+
+                <div class="Card">
+                    <img src="${attribute.image}" alt="x" width="300" height="250">
+                    <li>${attribute.packageId}</li>
+                    <li>${attribute.packageName}</li>
+                    <li>${attribute.packagePrice}</li>
+                    <li>${attribute.packageDescription}</li>
+                    
+                </div>
+            </c:forEach>
+        </div>
+    </div>
+    <div id="Profile" class="tabcontent">
+        <form  method = "post" name = "report" action = "products.htm">
+                      
+                   
+            <h1>User Details</h1>
+            <div id="userdetails">
+                UserName : "${sessionScope.currentUser.name}"  <br/>
+                UserEmail : ${sessionScope.currentUser.email}"   <br/> <br/> 
+            </div>
         
+           <p>Please make the changes! </p> 
+           <hr>
+                <div id="edit">
+                    <input type="text" value="${sessionScope.currentUser.name}" name="username"/>
+                    <input type="text" value="${sessionScope.currentUser.email}" name ="email"/>
+                </div>
+                <input type = "submit" class="btn btn-warning" value ="Update" name = "userSelectedOption"/>
+        
+    </form>
+
+        <form method = "post" name = "report" action = "email.htm">
+                         <input type = "submit" value ="Email" name = "email"/>
+                        <input type = "submit" value ="Report" name = "report"/>    
+        </form>
+        <form method = "post" name = "report" action = "logout.htm">
+            <button type="submit" class="btn btn-warning">Logout</button>
+        </form>
+    </div>
         <script>
         function openPanel(evt, cityName) {
           var i, tabcontent, tablinks;

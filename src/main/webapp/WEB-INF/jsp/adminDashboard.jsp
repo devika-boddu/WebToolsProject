@@ -95,7 +95,7 @@
                                         <label>Package Price:</label>
                                         <input type = "text" value = "${sessionScope.selectedProduct.packagePrice}" name = "packagePrice"/> <br/>
                                         <label>Image URL:</label>
-                                        <input type = "text" value = "${sessionScope.selectedProduct.imageURL}" name = "imageURL"/> <br/>
+                                        <input type = "text" value = "${sessionScope.selectedProduct.image}" name = "image"/> <br/>
                                     </div>
                                 <input type = "submit" value = "Update Package" name = "userSelectedOption" id="update"/>
                             </form>
@@ -132,7 +132,7 @@
                                     <td>${attribute.packageName}</td>
                                     <td>${attribute.packageDescription}</td>
                                     <td>${attribute.packagePrice}</td>
-                                    <td>${attribute.imageURL}</td>
+                                    <td>${attribute.image}</td>
                                 </tr>
                             </c:forEach>
                         </table>

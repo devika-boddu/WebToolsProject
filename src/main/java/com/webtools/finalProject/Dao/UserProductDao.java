@@ -6,8 +6,10 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.query.Query;
 
+import com.webtools.finalProject.Pojo.TravelPackages;
 import com.webtools.finalProject.Pojo.User;
 import com.webtools.finalProject.Pojo.UserProductMap;
+import com.webtools.finalProject.Pojo.UserWishlistMap;
 
 
 
@@ -65,6 +67,23 @@ public class UserProductDao extends DAO{
 		}
 	}
 
+	
+	public void deleteSelectedCartlistItem(TravelPackages travelPackages) {
+		try{
+			begin();
+			System.out.println("Deleting the selcted Cart item: ----");
+			Query<UserProductMap> query =getSession().createQuery("Delete FROM UserProductMap where travelPackages = :travelPackages");
+			query.setParameter("travelPackages",travelPackages);
+			query.executeUpdate();
+			System.out.println("Deleted from DB");
+			commit();
+			close();
+		}
+		catch(Exception e) {
+			System.out.println(e);
+			e.printStackTrace();
+		}
+	}
 
 
 
