@@ -49,15 +49,62 @@ public class TravelPackagesController {
 	int totalCost = 0;
 	int aTotalCost = 0;
 	int optionSelected = 0;
+	TravelPackagesDao tdao = new TravelPackagesDao();
+
 	
-	
+//	@GetMapping("/wishlist.htm")
+//	public String getSearchedProducts(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+//			@ModelAttribute("travelPackage") TravelPackages travelPackage, @ModelAttribute("userproduct") UserProductMap userproduct, BindingResult result) throws UserException {
+//		int wishCount =0;
+//		String userSelectedOption = request.getParameter("userSelectedOption");
+//		wishList = (List<TravelPackages>) session.getAttribute("travelPackagesWishlist");
+//		String pid = userSelectedOption.substring(16);
+//		Integer tid= Integer.parseInt(pid);
+//		for(TravelPackages wish : wishList) {
+//			System.out.println(wish.getPackageId());
+//		}
+//		
+//		TravelPackages addToWishlist=tdao.getSelectedProduct(tid);
+//		
+//		UserWishlistDao uwdao = new UserWishlistDao();
+//		User user = (User) session.getAttribute("currentUser");
+//		System.out.println("Logged In User for Wishlist:"+ user);
+//		System.out.println("Product added to wishlist" + addToWishlist);
+//		
+//		
+//		System.out.println(addToWishlist.getPackageName());
+//		System.out.println(addToWishlist.getPackageDescription());
+//		System.out.println(addToWishlist.getPackagePrice());
+//		//wishlistItemsList.add(addToWishlist);
+//		if(wishList.size() > 0) {
+//			for(TravelPackages i : wishList) {
+//				if(addToWishlist.getPackageId() == i.getPackageId()  ) {
+//					System.out.println("Item already exists!");
+//					wishCount += 1;
+//				}
+//			}if(wishCount == 0) {
+//				wishList.add(addToWishlist);
+//				UserWishlistMap uwmap = uwdao.create(new UserWishlistMap(user, addToWishlist));
+//			}else {
+//				System.out.println("Item exists");
+//			}
+//	
+//		}else {
+//			wishList.add(addToWishlist);
+//			UserWishlistMap uwmap = uwdao.create(new UserWishlistMap(user, addToWishlist));
+//		}
+//		session.setAttribute("travelPackagesWishlist", wishList);
+//
+//		
+//		return "dashboard";
+//	}
+
 	
 	@PostMapping("/products.htm")
 	public ModelAndView handleLogin(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@ModelAttribute("travelPackage") TravelPackages travelPackage, @ModelAttribute("userproduct") UserProductMap userproduct, BindingResult result) throws UserException, RazorpayException {
 		
-		TravelPackagesDao tdao = new TravelPackagesDao();
-		String userSelectedOption = request.getParameter("userSelectedOption");
+				String userSelectedOption = request.getParameter("userSelectedOption");
 		System.out.println(userSelectedOption);
 		
 		if(userSelectedOption.contains("Add To Cart")) {
@@ -171,7 +218,7 @@ public class TravelPackagesController {
 			UserOrderDao uodao = new UserOrderDao();
 			for(TravelPackages order: orderCartList) {
 				ordersList.add(order);
-				aTotalCost+=order.getPackagePrice();
+				//aTotalCost+=order.getPackagePrice();
 				uodao.create(new UserOrderMap(user, tdao.getSelectedProduct(order.getPackageId()),tdao.getSelectedProduct(order.getPackageId()).getPackagePrice()));
 			}
 			for(TravelPackages order: previousOrderList) {
@@ -184,17 +231,18 @@ public class TravelPackagesController {
 			System.out.println(ordersList);
 			System.out.println("Orders");
 			session.setAttribute("travelPackagesOrders", ordersList);
-			System.out.println(aTotalCost);					
+			//System.out.println(aTotalCost);					
 		}
-		else if(userSelectedOption.contains("View")) {
-			String pid = userSelectedOption.substring(5);
-			Integer tid= Integer.parseInt(pid);
-			System.out.println(tid);
-			
-			TravelPackages viewItem = tdao.getSelectedProduct(tid);
-			session.setAttribute("viewItem", viewItem);
-			return new ModelAndView("view");
-		}  else if (userSelectedOption.contains("Search")) {
+//		else if(userSelectedOption.contains("View")) {
+//			String pid = userSelectedOption.substring(5);
+//			Integer tid= Integer.parseInt(pid);
+//			System.out.println(tid);
+//			
+//			TravelPackages viewItem = tdao.getSelectedProduct(tid);
+//			session.setAttribute("viewItem", viewItem);
+//			return new ModelAndView("view");
+//	}  
+		else if (userSelectedOption.contains("Search")) {
 			String enteredText = request.getParameter("textEntered");
 			System.out.println(enteredText);
 			searchedItems=tdao.getSearchedProducts(enteredText);
@@ -205,16 +253,23 @@ public class TravelPackagesController {
 		}else if (userSelectedOption.contains("Sort")) {
 			sortedItems=tdao.getSortedProducts();
 			optionSelected=2;
-		}else if(userSelectedOption.contains("Quantity")){
-				totalCost = 0;
-				String[] selectedValues = request.getParameterValues("qty");
-				System.out.println(selectedValues);
-				
-				for (int i = 0; i < cartItemsList.size(); i++) {
-				TravelPackages item = cartItemsList.get(i);
-				totalCost += item.getPackagePrice() * Integer.parseInt(selectedValues[i]);
-				}
-				System.out.println(totalCost);
+		}else if(userSelectedOption.contains("Total")){
+			orderCartList = (List<TravelPackages>) session.getAttribute("travelPackagesCart");
+			for(TravelPackages order: orderCartList) {
+				ordersList.add(order);
+				aTotalCost+=order.getPackagePrice();
+			}
+			System.out.println(aTotalCost);					
+			
+//				totalCost = 0;
+//				String[] selectedValues = request.getParameterValues("qty");
+//				System.out.println(selectedValues);
+//				
+//				for (int i = 0; i < cartItemsList.size(); i++) {
+//				TravelPackages item = cartItemsList.get(i);
+//				totalCost += item.getPackagePrice() * Integer.parseInt(selectedValues[i]);
+//				}
+//				System.out.println(totalCost);
 			}
 
 		else if(userSelectedOption.matches(".*\\d+.*")){
@@ -237,15 +292,38 @@ public class TravelPackagesController {
 		session.setAttribute("aTotalCost", aTotalCost);
 		session.setAttribute("paginationResults", paginationResults);
 		session.setAttribute("updateValue", updateValue);
-		System.out.println();
+				System.out.println();
 		for(TravelPackages i : wishlistItemsList) {
 			System.out.println(i.getPackageId());
 		}
-		return new ModelAndView("dashboard");
+		return new ModelAndView("dashboard1");
 		
 	}
+
+	@GetMapping("/view.htm")
+	public ModelAndView handleView(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@ModelAttribute("travelPackage") TravelPackages travelPackage, @ModelAttribute("userproduct") UserProductMap userproduct, BindingResult result) throws UserException{
+		String userSelectedOption = request.getParameter("userSelectedOption");
+		System.out.println(userSelectedOption);
+		if(userSelectedOption.contains("View")) {
+			String pid = userSelectedOption.substring(5);
+			Integer tid= Integer.parseInt(pid);
+			System.out.println("tid: "+tid);
+			
+			TravelPackages viewItem = tdao.getSelectedProduct(tid);
+			session.setAttribute("viewItem", viewItem);	
+		
+	}
+		return new ModelAndView("view");
 	
 	
+	}
 	
+	@GetMapping("/back.htm")
+	public ModelAndView handleBack(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@ModelAttribute("travelPackage") TravelPackages travelPackage, @ModelAttribute("userproduct") UserProductMap userproduct, BindingResult result) throws UserException{
+		return new ModelAndView("dashboard1");
 	
-}
+	}
+	}	
+

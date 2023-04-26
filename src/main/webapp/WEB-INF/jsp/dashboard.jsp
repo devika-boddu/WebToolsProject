@@ -73,7 +73,7 @@
         <div style="padding-block: 25px">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" href="#home">
+                <a class="nav-link" data-bs-toggle="tab" href="#home">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-house-fill" viewBox="0 0 16 16">
                         <path
@@ -82,7 +82,7 @@
                     </svg> Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#products">
+                <a class="nav-link active" data-bs-toggle="tab" href="#products">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-pen-fill" viewBox="0 0 16 16">
                         <path
@@ -150,7 +150,7 @@
                 </h2>
                 <h4>Welcome to Nuemart!----</h4>
             </div>
-            <div class="tab-pane" id="products">
+            <div class="tab-pane active" id="products">
                 <p>Products Page</p>
                 <form method="post" name="products" action="products.htm">
                     <div class="container py-5">

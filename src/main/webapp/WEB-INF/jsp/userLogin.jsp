@@ -8,74 +8,54 @@
         <style>
             body {
                 font-family: Arial, sans-serif;
-                background-color: #F2F2F2;
-                color: #333;
+                background-color: #f0f0f0;
             }
             
             h1 {
                 text-align: center;
+                color: #333;
                 margin-top: 50px;
             }
             
             table {
                 margin: 0 auto;
-                border-collapse: collapse;
-                background-color: white;
-                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px #ccc;
             }
             
             td {
                 padding: 10px;
-                text-align: left;
-                vertical-align: middle;
-                border: 1px solid #CCC;
             }
             
-            input[type="text"],
-            input[type="password"] {
+            input[type="text"], input[type="password"] {
                 width: 100%;
-                padding: 8px;
-                border: 1px solid #CCC;
-                border-radius: 4px;
-                box-sizing: border-box;
-                margin-bottom: 10px;
+                padding: 5px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
             }
             
-            input[type="submit"] {
-                background-color: #333;
-                color: #FFF;
+            input[type="submit"], button {
+                display: block;
+                margin: 20px auto;
+                padding: 10px;
+                border-radius: 5px;
                 border: none;
-                padding: 10px 20px;
-                border-radius: 4px;
+                color: #fff;
+                background-color: #58b0ca;
                 cursor: pointer;
             }
             
-            input[type="submit"]:hover {
-                background-color: #555;
+            input[type="submit"]:hover, button:hover {
+                background-color: #58b0ca;
             }
             
-            button[type="submit"] {
-                background-color: transparent;
-                color: #333;
-                border: none;
-                cursor: pointer;
-            }
-            
-            button[type="submit"]:hover {
-                text-decoration: underline;
-            }
-            
-            .error {
+            font[color="red"] {
                 color: red;
             }
-            
-            .alert {
-                background-color: #FFD966;
-                padding: 10px;
-                margin-top: 10px;
-                border-radius: 4px;
-            }
         </style>
+    
     </head>
     <script>
         function showAlert(message) {
@@ -84,7 +64,6 @@
     </script>
     <body>
         <h1> Login Page</h1>
-        <p>Welcome</p>
         <form:form modelAttribute="user" method="post" action = "home.htm">
         <table>
         <tr>

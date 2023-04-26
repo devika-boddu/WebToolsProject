@@ -77,6 +77,10 @@ public class LoginController {
 			System.out.println(user.getPassword());
 				if(currentUser.getName().equalsIgnoreCase(user.getName())) {
 					if(currentUser.getPassword().equals(user.getPassword())) {
+						session.setAttribute("isLoggedIn", true);
+						String userAgent = request.getHeader("User-Agent");
+						System.out.println(userAgent);
+						session.setAttribute("userAgent", userAgent);
 						System.out.println("Valid Credentials");
 						
 						TravelPackagesDao tdao = new TravelPackagesDao();
@@ -128,7 +132,7 @@ public class LoginController {
 							request.getSession().setAttribute("product", i);
 				            System.out.println(i);
 				        }
-						return "dashboard";
+						return "dashboard1";
 				}else {
 						user.setName(currentUser.getName());
 						user.setPassword("");

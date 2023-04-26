@@ -3,6 +3,7 @@ package com.webtools.finalProject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,6 +16,7 @@ import com.stripe.Stripe;
 import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication
+@ServletComponentScan
 @ComponentScan({"com.webtools.finalProject.Controller","com.webtools.finalProject.Dao","com.webtools.finalProject.Exception", "com.webtools.finalProject.Pojo", "com.webtools.finalProject.Validator", "com.webtools.finalProject.Util"})
 public class WebtoolsFinalProjectApplication extends SpringBootServletInitializer implements WebMvcConfigurer {
 	

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -12,6 +12,7 @@
 </head>
 <body>
 <!-- Display a payment form -->
+<h1> The total amount is: <c:out value="${sessionScope.aTotalCost}" /></h1>
 <form id="payment-form">
     <div id="link-authentication-element">
         <!--Stripe.js injects the Link Authentication Element-->

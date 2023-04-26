@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.IOException;
 
@@ -22,5 +23,12 @@ public class WebController extends SecurityProperties.Filter {
 
         model.addAttribute("stripePublicKey",stripePublicKey );
         return "checkout";
+    }
+
+    @GetMapping("/paymentsuccessful")
+    public String homePage(   Model model) throws ServletException, IOException {
+
+        model.addAttribute("stripePublicKey",stripePublicKey );
+        return "payment";
     }
 }

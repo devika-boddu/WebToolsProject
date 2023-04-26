@@ -20,7 +20,7 @@
         margin-top: 20px;
     }
     button {
-        background-color: #4CAF50;
+        background-color: #58b0ca;
         color: #fff;
         padding: 10px 20px;
         border: none;
@@ -32,7 +32,7 @@
         margin: 0 auto;
     }
     button:hover {
-        background-color: #3e8e41;
+        background-color: #58b0ca;
     }
 </style>
 </head>

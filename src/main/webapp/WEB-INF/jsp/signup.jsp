@@ -5,12 +5,82 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f5f5f5;
+            }
+
+            h1 {
+                color: #333;
+                text-align: center;
+                margin-top: 50px;
+            }
+
+            p {
+                color: #666;
+                text-align: center;
+            }
+
+            table {
+                margin: 0 auto;
+                border-collapse: collapse;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                background-color: #fff;
+            }
+
+            td {
+                padding: 10px;
+                font-size: 16px;
+                color: #333;
+                text-align: left;
+            }
+
+            input[type="text"], input[type="password"] {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                box-sizing: border-box;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                font-size: 16px;
+                color: #333;
+            }
+
+            input[type="submit"], button[type="submit"] {
+                background-color: #58b0ca;
+                color: #fff;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+
+            input[type="submit"]:hover, button[type="submit"]:hover {
+                background-color: #58b0ca;
+            }
+
+            font {
+                color: red;
+            }
+            .button-click{
+                margin-left: 39%;
+                margin-top: 2%;
+            }
+            .button-signup{
+                margin-left: 35%;
+            }
+        </style>
     </head>
     <script>
         function showAlert(message) {
             alert(message);
         }
     </script>
+
     <body>
         <h1> SignUp Page</h1>
         <p>Welcome</p>
@@ -29,12 +99,20 @@
 		    <td><form:input path="email" size="30" /> <font color="red"><form:errors path="email"/></font></td>
 		</tr>
     	<tr>
-		    <td colspan="2"><input type="submit" value="Signup" /></td>
+            
+                <td colspan="2">
+                    <div class="button-signup">
+                        <input type="submit" value="Signup" /></td>
+                    </div>
+                    
 		</tr>
         </table>
         </form:form>
         <form method="get" action="login.htm">
-           <button type = "submit">Already have an account?. Click Here</button>
+            <div class="button-click">
+                <button type = "submit">Already have an account?. Click Here</button>
+            </div>
+           
         </form>
 
         <c:if test="${not empty requestScope.emailAlertMessage}">

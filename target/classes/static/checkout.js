@@ -16,7 +16,7 @@ document
 let emailAddress = 'devikab1399@gmail.com';
 // Fetches a payment intent and captures the client secret
 async function initialize() {
-  const response = await fetch("/create-payment-intent", {
+  const response = await fetch("/landingPage/create-payment-intent", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ items }),
@@ -52,7 +52,7 @@ async function handleSubmit(e) {
     confirmParams: {
       // Make sure to change this to your payment completion page
 //      return_url: "http://localhost:4242/checkout.html",
-      return_url: "http://localhost:8080/",
+      return_url: "http://localhost:8080/landingPage/paymentsuccessful",
       receipt_email: emailAddress,
     },
   });
