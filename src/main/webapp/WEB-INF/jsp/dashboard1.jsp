@@ -20,7 +20,7 @@ body {font-family: "Lato", sans-serif;}
   border: 1px solid #ccc;
   background-color: #f1f1f1;
   width: 20%;
-  height: 900px;
+  height: 1300px;
 }
 
 /* Style the buttons inside the tab */
@@ -216,12 +216,14 @@ body {font-family: "Lato", sans-serif;}
                                                 <input class="in" type="submit" id="soaddToWishlist_${attribute.packageId}" value="" name="userSelectedOption" />
                                                 <span class="icon"><i class="fa fa-heart"></i></span>
                                             </div>
-                                            <form method="get" action="view.htm">
-                                                <div class="cart">
-                                                <input class="in" type="submit" id="soview_${attribute.packageId}" value="" name="userSelectedOption" />
-                                                <span class="icon"><i class="fa fa-eye"></i></span>
-                                                </div>
-                                            </form>
+                                            
+                                            <div class="cart">
+                                                <form method="get" action="view.htm">
+                                                    <input class="in" type="submit" id="soview_${attribute.packageId}" value="" name="userSelectedOption" />
+                                                    <span class="icon"><i class="fa fa-eye"></i></span>
+                                                </form>
+                                            </div>
+                                            
                                         </div>
                                         <script>
                                             function concatenateStrings(text1, text2, inputId) {
@@ -285,12 +287,13 @@ body {font-family: "Lato", sans-serif;}
                                                 <input class="in" type="submit" id="addToWishlist_${attribute.packageId}" value="" name="userSelectedOption" />
                                                 <span class="icon"><i class="fa fa-heart"></i></span>
                                             </div>
-                                            <form method="get" action="view.htm">
-                                                <div class="cart">
-                                                    <input class="in" type="submit" id="view_${attribute.packageId}" value="" name="userSelectedOption" />
-                                                    <span class="icon"><i class="fa fa-eye"></i></span>
-                                                </div>
-                                            </form>
+                                            <div class="cart">
+                                                    <form method="get" action="view.htm">
+                                                        <input class="in" type="submit" id="view_${attribute.packageId}" value="" name="userSelectedOption" />
+                                                        <span class="icon"><i class="fa fa-eye"></i></span>
+                                                    </form>
+                                            </div>
+                                            
                                             
                                         </div>
                                         <script>
@@ -331,12 +334,14 @@ body {font-family: "Lato", sans-serif;}
                                                 <input class="in" type="submit" id="addToWishlist_${attribute.packageId}" value="" name="userSelectedOption" />
                                                 <span class="icon"><i class="fa fa-heart"></i></span>
                                             </div>
+                                           
+                                            <div class="cart">
                                             <form method="get" action="view.htm">
-                                                <div class="cart">
                                                 <input class="in" type="submit" id="view_${attribute.packageId}" value="" name="userSelectedOption" />
                                                 <span class="icon"><i class="fa fa-eye"></i></span>
-                                                </div>
                                             </form>
+                                            </div>
+                                            
                                         </div>
                                         <script>
                                             function concatenateStrings1(text1, text2, inputId) {
@@ -389,12 +394,14 @@ body {font-family: "Lato", sans-serif;}
                                     <input class="in" type="submit" id="caddToWishlist_${attribute.packageId}" value="" name="userSelectedOption" />
                                     <span class="icon"><i class="fa fa-heart"></i></span>
                                 </div>
-                                <form method="get" action="view.htm">
+                                
                                 <div class="cart">
-                                    <input class="in" type="submit" id="cview_${attribute.packageId}" value="" name="userSelectedOption" />
-                                    <span class="icon"><i class="fa fa-eye"></i></span>
+                                    <form method="get" action="view.htm">
+                                        <input class="in" type="submit" id="cview_${attribute.packageId}" value="" name="userSelectedOption" />
+                                        <span class="icon"><i class="fa fa-eye"></i></span>
+                                    </form>
                                 </div>
-                            </form>
+                            
                                 <div class="cart">
                                     <input class="in" type="submit" id="cdelete_${attribute.packageId}" value="" name="userSelectedOption" />
                                     <span class="icon"><i class="fas fa-trash-alt"></i></span>
@@ -453,12 +460,14 @@ body {font-family: "Lato", sans-serif;}
                                     <input class="in" type="submit" id="waddToCart_${attribute.packageId}" value="" name="userSelectedOption" />
                                     <span class="icon"><i class="fa fa-shopping-cart"></i></span>
                                 </div>
-                                <form method="get" action="view.htm">
+                                
                                 <div class="cart">
-                                    <input class="in" type="submit" id="wview_${attribute.packageId}" value="" name="userSelectedOption" />
-                                    <span class="icon"><i class="fa fa-eye"></i></span>
+                                    <form method="get" action="view.htm">
+                                        <input class="in" type="submit" id="wview_${attribute.packageId}" value="" name="userSelectedOption" />
+                                        <span class="icon"><i class="fa fa-eye"></i></span>
+                                    </form>
                                 </div>
-                            </form>
+                            
                                 <div class="cart">
                                     <input class="in" type="submit" id="wdelete_${attribute.packageId}" value="" name="userSelectedOption" />
                                     <span class="icon"><i class="fas fa-trash-alt"></i></span>
